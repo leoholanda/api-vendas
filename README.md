@@ -3,20 +3,16 @@
 ### endpoints
 
 ##### consulta cliente
-#
 > GET
 /api/cliente/{cpf}
-
-##### consulta as ultimas cinco vendas do cliente
 #
+##### consulta as ultimas cinco vendas do cliente
 > GET
 /api/venda/{cpf}
-
-##### persiste a venda
 #
+##### cadastra venda
 >POST
 /api/venda
-
 Ex:
 ```
 {
