@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.arruda.domain.model.Item;
 import br.com.arruda.domain.model.Venda;
 import br.com.arruda.service.VendaService;
 
@@ -25,9 +26,10 @@ public class VendaController {
 	private VendaService vendaService;
 	
 	@PostMapping
-	public ResponseEntity<Venda> cadastrar(@Valid @RequestBody Venda venda) {
+	public ResponseEntity<List<Item>> cadastrar(@Valid @RequestBody Venda venda) {
 		vendaService.cadastraVenda(venda);
-		return ResponseEntity.status(HttpStatus.OK).body(venda);
+		List<Item> itensMaisCompradosDaRegiao = vendaService.consultaVendaPorCidade(venda.getCliente().getCpf());
+		return ResponseEntity.status(HttpStatus.OK).body(itensMaisCompradosDaRegiao);
 	}
 	
 	@GetMapping("/{cpf}")
@@ -35,7 +37,6 @@ public class VendaController {
 		List<Venda> vendas = vendaService.consultaUltimasCincoVendasDoCliente(cpf);
 		return ResponseEntity.status(HttpStatus.OK).body(vendas);
 	}
-
 	
 	@GetMapping
 	public ResponseEntity<List<Venda>> consultarTudo() {

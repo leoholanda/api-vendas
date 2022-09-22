@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -51,11 +50,6 @@ public class Item implements Serializable {
 	@Column(name = "quantidade")
 	private Integer quantidade;
 	
-	@PrePersist
-	public void create() {
-		valorUnitario = produto.getPreco();
-	}
-
 	public Double getTotal() {
 		return quantidade != null && valorUnitario != null ? quantidade * valorUnitario : 0;
 	}

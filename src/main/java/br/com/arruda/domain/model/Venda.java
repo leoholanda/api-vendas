@@ -1,11 +1,13 @@
 package br.com.arruda.domain.model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,11 +52,12 @@ public class Venda implements Serializable {
 	@JoinColumn(name = "cliente")
 	private Cliente cliente;
 
-	@OneToMany(mappedBy = "venda", fetch = FetchType.LAZY)
 	@JsonManagedReference
+	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Item> itens = new ArrayList<Item>();
 
 	@Column(name = "valor_total")
+	@JsonIgnore
 	private Double valorTotal;
 
 	@PrePersist
@@ -62,14 +65,19 @@ public class Venda implements Serializable {
 		dataVenda = LocalDateTime.now();
 	}
 
-	public String getDataDaCompra() {
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		return dataVenda.format(dateFormatter);
+	 public String getDataDaCompra() {
+	 	DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+	 	return dataVenda.format(dateFormatter);
+	 }
+	 
+	 public String getTotalDaCompra() {
+		return valorTotal != null ? new DecimalFormat("#,##0.00").format(valorTotal) : "0.0";
 	}
 
 	@Override
 	public String toString() {
 		return "Venda [id=" + id + ", dataVenda=" + dataVenda + ", cliente=" + cliente + "]";
 	}
+	
 
 }

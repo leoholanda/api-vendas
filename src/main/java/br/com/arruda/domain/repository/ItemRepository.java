@@ -10,6 +10,10 @@ import br.com.arruda.domain.model.Municipio;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 	
+	@Query("SELECT i FROM Item i "
+			+ "WHERE i.venda.cliente.localidade = :municipio ")
+	List<Item> findByItemByMunicipio(Municipio municipio);
+	
 //	@Query("SELECT i FROM Item i "
 //			+ "WHERE i.venda.cliente.municipio = :municipio")
 //	List<Item> produtoMaisVendidoNaRegiao(Municipio municipio); 
