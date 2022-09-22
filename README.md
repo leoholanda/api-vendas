@@ -13,6 +13,7 @@
 ##### cadastra venda
 >POST
 /api/venda
+
 Ex:
 ```
 {
